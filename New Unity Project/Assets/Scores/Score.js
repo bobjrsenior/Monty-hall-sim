@@ -7,6 +7,7 @@ public var d2 : GameObject;
 public var d3 : GameObject;
 
 public var runs : int;
+public var progress : int;
 public var wins1 : int;
 public var losses1 : int;
 public var wins2 : int;
@@ -23,6 +24,7 @@ private var style : boolean;
 
 function Start () {
 	runs = 1000;
+	progress = 0;
 	wins1 = 0;
 	losses1 = 0;
 	wins2 = 0;
@@ -33,7 +35,8 @@ function Start () {
 }
 
 function Update () {
-	if(counter == 31 && counter <= 2*runs){
+	if(counter == 40 && progress <= 2*runs){
+		progress ++;
 		style = !style;
 		draw();
 		//Chose the right door at the start
@@ -52,25 +55,25 @@ function Update () {
 		}
 		if(choice == winner){
 			if(style){
-				losses1 ++;
+				losses2 ++;
 			}
 			else{
-				wins2 ++;
+				wins1 ++;
 			}
 			runNum ++;
 		}
 		else{
 			if(style){
-				wins1 ++;
+				wins2 ++;
 			}
 			else{
-				losses2 ++;
+				losses1 ++;
 			}
 		}
 		reset();
 		counter = 0;
 	}
-	if(counter < 31){
+	if(counter < 40){
 		if(counter == 30){
 			for(e = 0; e < 3; e ++){
 				if(style && e == other && e == 0){
@@ -154,16 +157,16 @@ function Update () {
 
 function draw(){
 	if(losses1 == 0){
-		guiText.text = "\nTactic 1: 100%";
+		guiText.text = "\nTactic 1: 0%";
 	}
 	else{
-		guiText.text = "\nTactic 1: " + (100 * wins1 / (losses1 + 0.0)) + "%";
+		guiText.text = "\nTactic 1: " + (100 * wins1 / (progress / 2 + 0.0)) + "%";
 	}
 	if(losses2 == 0){
-		guiText.text += "\nTactic 2: 100%";
+		guiText.text += "\nTactic 2: 0%";
 	}
 	else{
-		guiText.text += "\nTactic 2: " + (100 * wins2 / (losses2 + 0.0)) + "%";
+		guiText.text += "\nTactic 2: " + (100 * wins2 / (progress / 2 + 0.0)) + "%";
 	}
 }
 
